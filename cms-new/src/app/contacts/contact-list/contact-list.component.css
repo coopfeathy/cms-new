@@ -1,0 +1,10 @@
+.img-circle {
+    border-radius: 50%;
+    width: 40px; /* Adjust size as needed */
+    margin-right: 10px;
+  }
+  
+  .btn-success {
+    margin-top: -5px; /* Align the button vertically with the title */
+  }
+  
