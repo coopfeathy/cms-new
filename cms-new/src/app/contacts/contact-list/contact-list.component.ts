@@ -13,7 +13,11 @@ export class ContactListComponent implements OnInit {
     new Contact('2', 'Rex Barzee', 'barzeer@byui.edu', '208-496-3768', 'assets/images/barzeer.jpg')
   ];
 
-  constructor() {}
+  ngOnInit(): void {
+    // If you need to initialize or fetch contacts, do it here
+  }
 
-  ngOnInit(): void {}
+  onSelected(contact: Contact) {
+    // Emit the event with the selected contact
+  }
 }

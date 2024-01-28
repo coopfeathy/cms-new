@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Messages</h3>
+  </div>
+  <div class="panel-body">
+    <!-- Loop through the messages array and display each message using the MessageItemComponent -->
+    <app-message-item *ngFor="let message of messages" [message]="message"></app-message-item>
+  </div>
+  <div class="panel-footer">
+    <!-- Include the MessageEditComponent to add new messages -->
+    <app-message-edit (addMessageEvent)="onAddMessage($event)"></app-message-edit>
+  </div>
+</div>
