@@ -1,6 +1,18 @@
-<app-contact-item 
-  *ngFor="let contact of contacts" 
-  [contact]="contact" 
-  (selected)="onSelected(contact)">
-</app-contact-item>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row pad-left-right">
+      <span class="pull-left title">Contacts</span>
+      <a class="btn btn-success pull-right">Add Contact</a>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="center-panel">
+      <app-contact-item 
+        *ngFor="let contact of contacts" 
+        [contact]="contact" 
+        (click)="onSelectedContact(contact)">
+      </app-contact-item>
+    </div>
+  </div>
+</div>
   
