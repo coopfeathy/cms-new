@@ -1,0 +1,25 @@
+/* message-item.component.css */
+.message-item {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .message-header {
+    font-weight: bold;
+  }
+  
+  .message-sender {
+    color: #333;
+  }
+  
+  .message-body {
+    margin-top: 5px;
+  }
+  
+  .message-content {
+    color: #666;
+  }
+  
