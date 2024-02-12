@@ -1,30 +1,26 @@
 import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { Message } from '../message.model'; // Update the path as needed
+import { MessageService } from '../message.service';
+import { Message } from '../message.model'; 
 
 @Component({
   selector: 'app-message-edit',
   templateUrl: './message-edit.component.html',
   styleUrl: './message-edit.component.css'
 })
-export class MessageEditComponent {
-  subject: string = ''; // Initialize to an empty string
-  message: string = ''; // Initialize to an empty string
-  @Output() addMessageEvent = new EventEmitter<Message>();
+export class MessageEditComponent {  
+  subject: string;
+  msgText: string;
+
+  constructor(private messageService: MessageService) { }
 
   onSendMessage() {
-    const id = Date.now().toString();
-    const newMessage = new Message(
-      id,
-      this.subject,
-      this.message,
-      'Name' // Replace with the sender's name or a dynamic property
-    );
-    this.addMessageEvent.emit(newMessage);
+    const newMessage = new Message('1', this.subject, this.msgText, '2');
+    this.messageService.addMessage(newMessage);
     this.onClear();
   }
 
   onClear() {
     this.subject = '';
-    this.message = '';
+    this.msgText = '';
   }
 }
