@@ -14,8 +14,4 @@ export class DocumentItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSelectedDocument(document: Document) {
-    console.log(document);
-    // Implement your logic here
-  }
 }
