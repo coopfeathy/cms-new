@@ -1,5 +1,4 @@
-<div class="documentDiv" (click)="onSelectedDocument(document)" [routerLink]="['/documents', document.id]">
-    <a>
-        {{ document.name }}
-    </a>
-</div>
+<a class="documentDiv" [routerLink]="['/documents', document.id]" routerLinkActive="active">
+    {{ document.name }}
+</a>
+
