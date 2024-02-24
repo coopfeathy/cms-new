@@ -12,7 +12,7 @@
     <!-- Panel Footer -->
     <div class="panel-footer">
       <a class="btn btn-info" [routerLink]="['/contacts', contact.id, 'edit']">Edit</a>
-      <button class="btn btn-danger">Delete</button>
+      <a class="btn btn-danger" (click)="onDelete()">Delete</a>
     </div>
   </div>
   
