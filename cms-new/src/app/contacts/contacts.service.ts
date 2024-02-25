@@ -24,11 +24,44 @@ export class ContactsService {
     return this.contacts.find((c) => c.id === id);
   }
 
-  deleteContact(contact: Contact) {
-    const index = this.contacts.indexOf(contact);
-    if (index !== -1) {
-      this.contacts.splice(index, 1);
-      this.contactListChangedEvent.next(this.contacts.slice());
+  addContact(newContact: Contact) {
+    if (!newContact) {
+      return;
     }
+  
+    this.contacts.push(newContact);
+    let contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone);
+  }
+  
+  updateContact(originalContact: Contact, newContact: Contact) {
+    if (!originalContact || !newContact) {
+      return;
+    }
+  
+    const pos = this.contacts.indexOf(originalContact);
+    if (pos < 0) {
+      return;
+    }
+  
+    newContact.id = originalContact.id;
+    this.contacts[pos] = newContact;
+    let contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone);
+  }
+  
+  deleteContact(contact: Contact) {
+    if (!contact) {
+      return;
+    }
+  
+    const pos = this.contacts.indexOf(contact);
+    if (pos < 0) {
+      return;
+    }
+  
+    this.contacts.splice(pos, 1);
+    let contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone);
   }
 }
