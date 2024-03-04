@@ -5,13 +5,9 @@
       <a class="btn btn-success pull-right" [routerLink]="['new']">Add Contact</a>
     </div>
   </div>
-  <div class="panel-body">
-    <div class="center-panel">
-      <app-contact-item 
-        *ngFor="let contact of contacts" 
-        [contact]="contact" 
-        [routerLink]="[contact.id]">
-      </app-contact-item>
+  <div cdkDropList [cdkDropListData]="contacts" class="panel-body">
+    <div cdkDrag *ngFor="let contact of contacts" [cdkDragData]="contact" class="center-panel">
+      <app-contact-item [contact]="contact"></app-contact-item>
     </div>
   </div>
 </div>
