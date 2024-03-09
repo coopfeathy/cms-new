@@ -12,6 +12,11 @@ import { Subscription } from 'rxjs';
 export class ContactListComponent implements OnInit, OnDestroy {
   contacts: Contact[] = [];
   private subscription: Subscription;
+  term: string;
+
+  search(value: string) {
+    this.term = value;
+  }
 
   onSelectedContact(contact: Contact) {
     this.contactService.contactSelectedEvent.emit(contact);
