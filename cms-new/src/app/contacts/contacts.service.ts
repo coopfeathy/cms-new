@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Contact } from './contact.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,27 @@ export class ContactsService {
   contactSelectedEvent = new EventEmitter<Contact>();
   contactListChangedEvent = new Subject<Contact[]>();
 
-  constructor() { 
-    this.contacts = MOCKCONTACTS;
+  constructor(private http: HttpClient) {
+    this.getContacts();
   }
 
   private contacts: Contact[] = [];
 
-  getContacts(): Contact[] {  
-    return this.contacts.slice();
+  getContacts() {
+    this.http.get('https://cpf-cms-bf4f3-default-rtdb.firebaseio.com/contacts.json')
+      .subscribe((contacts: Contact[]) => {
+        this.contacts = contacts;
+        this.contactListChangedEvent.next(this.contacts.slice());
+      });
+  }
+
+  storeContacts() {
+    const contacts = JSON.stringify(this.contacts);
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    this.http.put('https://cpf-cms-bf4f3-default-rtdb.firebaseio.com/contacts.json', contacts, {headers: headers})
+      .subscribe(() => {
+        this.contactListChangedEvent.next(this.contacts.slice());
+      });
   }
 
   getContact(id: string): Contact {
@@ -32,6 +46,7 @@ export class ContactsService {
     this.contacts.push(newContact);
     let contactsListClone = this.contacts.slice();
     this.contactListChangedEvent.next(contactsListClone);
+    this.storeContacts();
   }
   
   updateContact(originalContact: Contact, newContact: Contact) {
@@ -48,6 +63,7 @@ export class ContactsService {
     this.contacts[pos] = newContact;
     let contactsListClone = this.contacts.slice();
     this.contactListChangedEvent.next(contactsListClone);
+    this.storeContacts();
   }
   
   deleteContact(contact: Contact) {
@@ -63,5 +79,6 @@ export class ContactsService {
     this.contacts.splice(pos, 1);
     let contactsListClone = this.contacts.slice();
     this.contactListChangedEvent.next(contactsListClone);
+    this.storeContacts();
   }
 }
