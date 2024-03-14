@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Document } from './document.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 import { Subject } from 'rxjs';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,11 +10,10 @@ export class DocumentService {
   documentSelectedEvent = new EventEmitter<Document>();
   documentListChangedEvent = new Subject<Document[]>();
   private maxDocumentId: number;
-
+  private documentsListClone: Document[]
   private documents: Document[] = [];
 
-  constructor() { 
-    this.documents = MOCKDOCUMENTS;
+  constructor(private http: HttpClient) {
     this.maxDocumentId = this.getMaxId();
   }
 
@@ -57,8 +56,34 @@ export class DocumentService {
     this.documentListChangedEvent.next(documentsListClone);
   }
 
-  getDocuments(): Document[] {  
-    return this.documents.slice();
+  getDocuments() {
+    this.http.get('https://cpf-cms-bf4f3-default-rtdb.firebaseio.com/documents.json')
+      .subscribe(
+        //success method
+        {next: (documents: Document[]) => {
+        this.documents = documents
+        this.maxDocumentId = this.getMaxId()
+
+        this.documents.sort(this.compare)
+
+        this.documentsListClone = this.documents.slice()
+        this.documentListChangedEvent.next(this.documentsListClone);
+        },
+
+        error: (e) => {
+          console.log(e)
+        }}
+      )
+  }
+
+  compare(a, b) {
+    if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
   }
 
   getDocument(id: string): Document {
